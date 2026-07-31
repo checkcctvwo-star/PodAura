@@ -8,10 +8,8 @@ enableFeaturePreview("STABLE_CONFIGURATION_CACHE")
 pluginManagement {
     repositories {
         mavenLocal()
-        maven(url = "https://maven.aliyun.com/repository/google")
-        maven(url = "https://maven.aliyun.com/repository/public")
-        maven(url = "https://maven.aliyun.com/repository/gradle-plugin")
         google()
+        // maven(url = "https://maven.aliyun.com/repository/public")
         mavenCentral()
         maven(url = "https://jitpack.io")
         gradlePluginPortal()
@@ -26,9 +24,8 @@ dependencyResolutionManagement {
     repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
     repositories {
         mavenLocal()
-        maven(url = "https://maven.aliyun.com/repository/google")
-        maven(url = "https://maven.aliyun.com/repository/public")
         google()
+        // maven(url = "https://maven.aliyun.com/repository/public")
         mavenCentral()
         // maven(url = "https://central.sonatype.com/repository/maven-snapshots")
         maven(url = "https://jitpack.io")
