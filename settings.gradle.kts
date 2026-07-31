@@ -37,6 +37,7 @@ include(
     ":fundation",
     ":htmlrender",
     ":downloader",
+    ":transcoder",
     ":ksp:processor",
     ":ksp:annotation",
     ":platform:android:app",
