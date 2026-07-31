@@ -8,7 +8,7 @@ package com.skyd.transcoder.naming
 internal fun sanitizeFileNameSegment(input: String, maxLength: Int = 200): String {
     var s = input.replace(Regex("[\\\\/:*?\"<>|]"), "_")
     s = s.replace(Regex("_+"), "_")
-    s = s.trim().trim('.').trim('_').trim()
+    s = s.replace(Regex("^[ ._]+|[ ._]+$"), "")
     if (s.length > maxLength) s = s.take(maxLength)
     return s
 }

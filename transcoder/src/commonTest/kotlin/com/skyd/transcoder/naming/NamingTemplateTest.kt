@@ -44,7 +44,7 @@ class NamingTemplateTest {
     @Test
     fun missingPubDateReplacedWithEmpty() {
         val m = meta.copy(pubDate = null)
-        assertEquals(" - EP1_ Intro", NamingTemplate.DateAndTitle.render(m))
+        assertEquals("- EP1_ Intro", NamingTemplate.DateAndTitle.render(m))
     }
 
     @Test

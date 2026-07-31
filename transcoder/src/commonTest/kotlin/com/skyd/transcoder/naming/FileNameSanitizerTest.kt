@@ -20,6 +20,12 @@ class FileNameSanitizerTest {
     }
 
     @Test
+    fun trimsAlternatingCharsAtEdges() {
+        // F2 regression: "_.name._" (underscore outside, dot inside) must not leave dots
+        assertEquals("name", sanitizeFileNameSegment("_.name._"))
+    }
+
+    @Test
     fun truncatesToMaxLength() {
         val long = "a".repeat(300)
         val result = sanitizeFileNameSegment(long, maxLength = 200)
