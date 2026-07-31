@@ -116,6 +116,7 @@ kotlin {
             implementation(projects.downloader)
             implementation(projects.htmlrender)
             implementation(projects.compottie.main)
+            implementation(projects.transcoder)
         }
 
         commonTest.dependencies {

@@ -111,10 +111,6 @@ android {
             "META-INF/native-image/**"
         )
         jniLibs {
-            excludes += mutableSetOf(
-                "lib/*/libffmpegkit.so",                // mpv-android
-                "lib/*/libffmpegkit_abidetect.so",      // mpv-android
-            )
             useLegacyPackaging = true
         }
         dex {
