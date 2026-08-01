@@ -1,6 +1,7 @@
 package com.skyd.podaura.model.repository.download
 
 import androidx.compose.runtime.Composable
+import com.skyd.fundation.config.Const
 import com.skyd.fundation.config.DOWNLOAD_TEMP_DIR
 import com.skyd.fundation.di.get
 import com.skyd.podaura.ext.getOrDefault
@@ -29,7 +30,7 @@ abstract class DownloadStarter {
                 // download success in DownloadManager.listenDownloadEvent) loads the article
                 // itself from entity.url, transcodes/copies to the SAF tree, and updates the
                 // DownloadEntity, so the article/group/getFolder computation below is skipped.
-                DOWNLOAD_TEMP_DIR
+                Const.DOWNLOAD_TEMP_DIR
             } else {
                 val articleId = get<EnclosureDao>().getMediaArticleId(url)
                 val article =
