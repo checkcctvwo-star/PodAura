@@ -181,15 +181,29 @@ internal class DownloadNotificationManager(
     }
 
     /**
-     * Send broadcast to show download success notification
+     * Send broadcast to show download success notification.
      *
-     * @param totalLength
+     * When [finalSize] is known (> 0, i.e. the download has been transcoded and the
+     * final output size is available), it is shown instead of [totalBytes] so the
+     * user sees the size of the file they actually get.
+     *
+     * Note: transcoding runs in the shared layer after the download-success event,
+     * so [finalSize] is typically still 0 at the moment this notification fires and
+     * [totalBytes] is displayed. Reliably showing the transcoded size requires a
+     * follow-up "transcode complete" notification (not implemented here).
+     *
+     * @param totalBytes total downloaded (source) bytes
+     * @param finalSize final transcoded file size, or 0 if not yet transcoded
      */
-    fun sendDownloadSuccessNotification(totalLength: Long) {
+    fun sendDownloadSuccessNotification(
+        totalBytes: Long,
+        finalSize: Long = 0L,
+    ) {
+        val displaySize = if (finalSize > 0L) finalSize else totalBytes
         context.applicationContext.sendBroadcast(
             Intent(context, NotificationReceiver::class.java).apply {
                 putExtrasForReceiver()
-                putExtra(NotificationConst.KEY_TOTAL_BYTES, totalLength)
+                putExtra(NotificationConst.KEY_TOTAL_BYTES, displaySize)
                 action = NotificationConst.ACTION_DOWNLOAD_COMPLETED
             }
         )
