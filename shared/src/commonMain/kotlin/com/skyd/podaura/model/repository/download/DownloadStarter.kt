@@ -1,6 +1,7 @@
 package com.skyd.podaura.model.repository.download
 
 import androidx.compose.runtime.Composable
+import com.skyd.fundation.config.Const
 import com.skyd.fundation.di.get
 import com.skyd.podaura.ext.getOrDefault
 import com.skyd.podaura.model.db.dao.ArticleDao
@@ -8,6 +9,8 @@ import com.skyd.podaura.model.db.dao.EnclosureDao
 import com.skyd.podaura.model.db.dao.GroupDao
 import com.skyd.podaura.model.preference.data.medialib.MediaLibLocationPreference
 import com.skyd.podaura.model.preference.dataStore
+import com.skyd.podaura.model.preference.download.AutoTranscodeMp3Preference
+import com.skyd.podaura.model.preference.download.DownloadRootDirPreference
 import com.skyd.podaura.model.repository.media.MediaRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -18,16 +21,27 @@ import kotlinx.io.files.Path
 abstract class DownloadStarter {
     open suspend fun download(url: String, type: String? = null) {
         withContext(Dispatchers.IO) {
-            val articleId = get<EnclosureDao>().getMediaArticleId(url)
-            val article =
-                articleId?.let { get<ArticleDao>().getArticleWithFeed(it).first() }
-            val group = article?.feed?.groupId?.let { get<GroupDao>().getGroupById(it) }
-            val saveDir = get<MediaRepository>().getFolder(
-                parentFile = Path(dataStore.getOrDefault(MediaLibLocationPreference)),
-                groupName = group?.name,
-                feedUrl = article?.feed?.url,
-                displayName = article?.feed?.title,
-            ).first().toString()
+            val autoTranscode = dataStore.getOrDefault(AutoTranscodeMp3Preference)
+            val rootUri = dataStore.getOrDefault(DownloadRootDirPreference)
+            val useTranscodePath = autoTranscode && rootUri.isNotEmpty()
+            val saveDir = if (useTranscodePath) {
+                // SAF transcode path: download to a cache temp dir. TranscodeHook (triggered on
+                // download success in DownloadManager.listenDownloadEvent) loads the article
+                // itself from entity.url, transcodes/copies to the SAF tree, and updates the
+                // DownloadEntity, so the article/group/getFolder computation below is skipped.
+                Const.DOWNLOAD_TEMP_DIR
+            } else {
+                val articleId = get<EnclosureDao>().getMediaArticleId(url)
+                val article =
+                    articleId?.let { get<ArticleDao>().getArticleWithFeed(it).first() }
+                val group = article?.feed?.groupId?.let { get<GroupDao>().getGroupById(it) }
+                get<MediaRepository>().getFolder(
+                    parentFile = Path(dataStore.getOrDefault(MediaLibLocationPreference)),
+                    groupName = group?.name,
+                    feedUrl = article?.feed?.url,
+                    displayName = article?.feed?.title,
+                ).first().toString()
+            }
             if (url.startsWith("magnet:")) {
                 // todo open link
             } else {

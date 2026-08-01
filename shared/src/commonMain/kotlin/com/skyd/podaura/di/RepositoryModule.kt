@@ -14,6 +14,7 @@ import com.skyd.podaura.model.repository.download.AutoDownloadRuleRepository
 import com.skyd.podaura.model.repository.download.DownloadManager
 import com.skyd.podaura.model.repository.download.DownloadRepository
 import com.skyd.podaura.model.repository.download.IDownloadManager
+import com.skyd.podaura.model.repository.download.TranscodeHook
 import com.skyd.podaura.model.repository.feed.FeedRepository
 import com.skyd.podaura.model.repository.feed.IFeedRepository
 import com.skyd.podaura.model.repository.feed.ReorderFeedRepository
@@ -103,4 +104,6 @@ val repositoryModule = module {
     factory { DownloadRepository() }
 
     factory { DownloadManager.instance } binds arrayOf(IDownloadManager::class)
+
+    single { TranscodeHook() }
 }

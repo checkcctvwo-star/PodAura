@@ -1,14 +1,19 @@
 package com.skyd.podaura.model.repository.download
 
+import co.touchlab.kermit.Logger
 import com.skyd.downloader.Downloader
 import com.skyd.downloader.Status
 import com.skyd.downloader.db.DownloadEntity
 import com.skyd.downloader.download.Event
 import com.skyd.fundation.di.get
 import com.skyd.fundation.di.inject
+import com.skyd.podaura.ext.getOrDefault
 import com.skyd.podaura.model.db.dao.ArticleDao
 import com.skyd.podaura.model.db.dao.EnclosureDao
 import com.skyd.podaura.model.download.DownloadInfoBean
+import com.skyd.podaura.model.preference.dataStore
+import com.skyd.podaura.model.preference.download.AutoTranscodeMp3Preference
+import com.skyd.podaura.model.preference.download.DownloadRootDirPreference
 import com.skyd.podaura.model.repository.media.MediaRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -70,15 +75,22 @@ class DownloadManager private constructor() : IDownloadManager, KoinComponent {
             Downloader.observeEvent().collect { event ->
                 when (event) {
                     is Event.Success -> {
-                        val articleId = get<EnclosureDao>().getMediaArticleId(event.entity.url)
-                        if (articleId != null) {
-                            val article = get<ArticleDao>().getArticleWithFeed(articleId).first()
-                            get<MediaRepository>().addNewFile(
-                                file = Path(event.entity.path, event.entity.fileName),
-                                groupName = null,
-                                articleId = articleId,
-                                displayName = article?.articleWithEnclosure?.article?.title
-                            ).collect()
+                        val autoTranscode = dataStore.getOrDefault(AutoTranscodeMp3Preference)
+                        val rootUri = dataStore.getOrDefault(DownloadRootDirPreference)
+                        if (autoTranscode && rootUri.isNotEmpty()) {
+                            runCatching { get<TranscodeHook>().onDownloadSuccess(event.entity) }
+                                .onFailure { Logger.e(throwable = it) { "TranscodeHook failed" } }
+                        } else {
+                            val articleId = get<EnclosureDao>().getMediaArticleId(event.entity.url)
+                            if (articleId != null) {
+                                val article = get<ArticleDao>().getArticleWithFeed(articleId).first()
+                                get<MediaRepository>().addNewFile(
+                                    file = Path(event.entity.path, event.entity.fileName),
+                                    groupName = null,
+                                    articleId = articleId,
+                                    displayName = article?.articleWithEnclosure?.article?.title
+                                ).collect()
+                            }
                         }
                     }
 
