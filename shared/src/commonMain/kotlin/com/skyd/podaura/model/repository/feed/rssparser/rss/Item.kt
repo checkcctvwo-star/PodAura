@@ -76,6 +76,10 @@ data class Item(
     val itunesEpisode: String?,
 
     @XmlElement
+    @XmlSerialName(value = "season", namespace = ITUNES_NAMESPACE, prefix = ITUNES_PREFIX)
+    val itunesSeason: String?,
+
+    @XmlElement
     @XmlSerialName(value = "author", namespace = ITUNES_NAMESPACE, prefix = ITUNES_PREFIX)
     val itunesAuthor: String?,
 

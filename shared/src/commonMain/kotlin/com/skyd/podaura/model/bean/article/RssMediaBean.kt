@@ -33,6 +33,8 @@ data class RssMediaBean(
     val image: String? = null,
     @ColumnInfo(name = EPISODE_COLUMN)
     var episode: String? = null,
+    @ColumnInfo(name = SEASON_COLUMN)
+    var season: String? = null,
 ) : BaseBean {
     companion object {
         const val ARTICLE_ID_COLUMN = "articleId"
@@ -40,5 +42,6 @@ data class RssMediaBean(
         const val ADULT_COLUMN = "adult"
         const val IMAGE_COLUMN = "image"
         const val EPISODE_COLUMN = "episode"
+        const val SEASON_COLUMN = "season"
     }
 }

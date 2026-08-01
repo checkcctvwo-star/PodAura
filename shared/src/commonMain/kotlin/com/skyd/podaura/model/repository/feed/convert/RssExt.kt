@@ -95,6 +95,7 @@ fun Item.toRssMediaBean(articleId: String): RssMediaBean {
         image = mediaThumbnail.firstOrNull()?.url
             ?: itunesImage?.href,
         episode = itunesEpisode,
+        season = itunesSeason,
     )
 }
 
