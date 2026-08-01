@@ -21,7 +21,10 @@ data class DownloadEntity(
     var workerUuid: String = "",
     var createTime: Long = 0,
     var userAction: String = UserAction.Init.toString(),
-    var failureReason: String = ""
+    var failureReason: String = "",
+    var outputUri: String = "",
+    var transcodeStatus: String = "",
+    var finalSize: Long = 0
 ) {
     companion object {
         const val TABLE_NAME = "Download"
