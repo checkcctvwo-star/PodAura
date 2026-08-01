@@ -16,18 +16,18 @@ actual fun writeTranscodedToSaf(
     fileName: String,
 ): String {
     val root = PlatformFile(rootTreeUri)
-    val showDir = root div showName
+    val showDir = root.div(showName)
     if (!showDir.exists()) showDir.createDirectories()
 
     // Resolve a non-colliding target name: "name (2).ext", "name (3).ext", ...
-    var target = showDir div fileName
+    var target = showDir.div(fileName)
     if (target.exists()) {
         val dotIndex = fileName.lastIndexOf('.')
         val baseName = if (dotIndex > 0) fileName.substring(0, dotIndex) else fileName
         val extension = if (dotIndex > 0) fileName.substring(dotIndex) else ""
         var counter = 2
         do {
-            target = showDir div "$baseName ($counter)$extension"
+            target = showDir.div("$baseName ($counter)$extension")
             counter++
         } while (target.exists())
     }
