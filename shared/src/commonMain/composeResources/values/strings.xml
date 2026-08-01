@@ -87,6 +87,15 @@
     <string name="transmission_screen_description">Data transfer setup, behavior</string>
     <string name="transmission_screen_transmission_behavior_category">Behavior</string>
     <string name="transmission_screen_config_category">Config</string>
+    <string name="download_root_dir">Download directory</string>
+    <string name="not_set">Not set</string>
+    <string name="auto_transcode_mp3">Auto transcode to MP3</string>
+    <string name="transcode_bitrate">Transcode bitrate</string>
+    <string name="naming_template">Naming template</string>
+    <string name="naming_template_title_show">Title - Show</string>
+    <string name="naming_template_show_number_title">Show - E# - Title</string>
+    <string name="naming_template_date_title">Date - Title</string>
+    <string name="keep_original_after_transcode">Keep original file after transcode</string>
     <string name="proxy_screen_name">Proxy</string>
     <string name="proxy_screen_description">Configure proxy server address, port, account, etc</string>
     <string name="proxy_mode_auto">Auto</string>

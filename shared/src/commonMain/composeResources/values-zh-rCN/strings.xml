@@ -83,6 +83,15 @@
     <string name="transmission_screen_description">数据传输配置、行为等</string>
     <string name="transmission_screen_transmission_behavior_category">行为</string>
     <string name="transmission_screen_config_category">配置</string>
+    <string name="download_root_dir">下载目录</string>
+    <string name="not_set">未设置</string>
+    <string name="auto_transcode_mp3">自动转码为 MP3</string>
+    <string name="transcode_bitrate">转码码率</string>
+    <string name="naming_template">命名模板</string>
+    <string name="naming_template_title_show">标题 - 节目</string>
+    <string name="naming_template_show_number_title">节目 - E# - 标题</string>
+    <string name="naming_template_date_title">日期 - 标题</string>
+    <string name="keep_original_after_transcode">转码后保留原文件</string>
     <string name="proxy_screen_name">代理</string>
     <string name="proxy_screen_description">配置代理服务器地址、端口、账号等</string>
     <string name="proxy_mode_auto">自动</string>
