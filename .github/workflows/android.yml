@@ -71,10 +71,15 @@ jobs:
       - name: Assemble Debug APK
         run: ./gradlew :platform:android:app:assembleGithubDebug
 
-      - name: Rename APK
+      - name: Locate and rename APK
         run: |
+          set -e
           mkdir -p release
-          cp platform/android/app/build/outputs/apk/GitHub/debug/*.apk "release/PodAura-podcast-downloader-${GITHUB_REF_NAME}.apk"
+          apk=$(find platform/android/app/build/outputs/apk -name "*.apk" | head -1)
+          echo "Found APK: $apk"
+          test -n "$apk"
+          cp "$apk" "release/PodAura-podcast-downloader-${GITHUB_REF_NAME}.apk"
+          ls -la release/
 
       - name: Create GitHub Release and Upload APK
         env:
