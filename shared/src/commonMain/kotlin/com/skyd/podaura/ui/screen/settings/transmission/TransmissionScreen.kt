@@ -28,6 +28,7 @@ import com.skyd.podaura.model.preference.download.DownloadNamingTemplatePreferen
 import com.skyd.podaura.model.preference.download.DownloadRootDirPreference
 import com.skyd.podaura.model.preference.download.KeepOriginalAfterTranscodePreference
 import com.skyd.podaura.model.preference.download.TranscodeBitratePreference
+import com.skyd.podaura.model.repository.download.persistSafPermission
 import com.skyd.settings.BaseSettingsItem
 import com.skyd.settings.SettingsLazyColumn
 import com.skyd.settings.SwitchSettingsItem
@@ -66,8 +67,10 @@ fun TransmissionScreen(
 
     val directoryPickerLauncher = rememberDirectoryPickerLauncher { dir ->
         if (dir != null) {
-            // Store the SAF tree URI string (content://...). PlatformFile(storedValue) can
-            // reconstruct it on Android, which writeTranscodedToSaf relies on.
+            // Persist the SAF tree permission across reboots (must happen while the picker
+            // grant is active), then store the content:// URI string. PlatformFile(storedValue)
+            // can reconstruct it on Android, which writeTranscodedToSaf relies on.
+            persistSafPermission(dir.path)
             DownloadRootDirPreference.put(scope, dir.path)
         }
     }
