@@ -1,7 +1,7 @@
 package com.skyd.podaura.model.repository.download
 
 import androidx.compose.runtime.Composable
-import com.skyd.fundation.config.Const
+import com.skyd.fundation.config.DOWNLOAD_TEMP_DIR
 import com.skyd.fundation.di.get
 import com.skyd.podaura.ext.getOrDefault
 import com.skyd.podaura.model.db.dao.ArticleDao
@@ -24,14 +24,12 @@ abstract class DownloadStarter {
             val autoTranscode = dataStore.getOrDefault(AutoTranscodeMp3Preference)
             val rootUri = dataStore.getOrDefault(DownloadRootDirPreference)
             val useTranscodePath = autoTranscode && rootUri.isNotEmpty()
-            // DIAGNOSTIC: confirm sibling expect resolves
-            val _sibling = Const.TEMP_PICTURES_DIR
             val saveDir = if (useTranscodePath) {
                 // SAF transcode path: download to a cache temp dir. TranscodeHook (triggered on
                 // download success in DownloadManager.listenDownloadEvent) loads the article
                 // itself from entity.url, transcodes/copies to the SAF tree, and updates the
                 // DownloadEntity, so the article/group/getFolder computation below is skipped.
-                com.skyd.fundation.config.Const.DOWNLOAD_TEMP_DIR
+                DOWNLOAD_TEMP_DIR
             } else {
                 val articleId = get<EnclosureDao>().getMediaArticleId(url)
                 val article =
