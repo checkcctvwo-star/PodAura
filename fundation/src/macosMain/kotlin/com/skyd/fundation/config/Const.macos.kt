@@ -28,6 +28,9 @@ actual val Const.DEFAULT_FILE_PICKER_PATH: String
 actual val Const.TEMP_PICTURES_DIR: String
     get() = joinPath(Directories.caches, BuildKonfig.packageName, "Pictures")
         .ensureDirectoryExists()
+actual val Const.DOWNLOAD_TEMP_DIR: String
+    get() = joinPath(Directories.caches, BuildKonfig.packageName, "downloads")
+        .ensureDirectoryExists()
 actual val Const.PICTURES_DIR: String
     get() = joinPath(Directories.pictures, "PodAura")
         .ensureDirectoryExists()

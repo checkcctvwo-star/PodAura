@@ -23,6 +23,9 @@ actual val Const.DEFAULT_FILE_PICKER_PATH: String
 actual val Const.TEMP_PICTURES_DIR: String
     get() = File(appDirectories.cacheDir, "Pictures")
         .apply { if (!exists()) mkdirs() }.path
+actual val Const.DOWNLOAD_TEMP_DIR: String
+    get() = File(appDirectories.cacheDir, "downloads")
+        .apply { if (!exists()) mkdirs() }.path
 actual val Const.PICTURES_DIR: String
     get() = File(
         appDirectories.homeDir + File.separator + "Pictures",

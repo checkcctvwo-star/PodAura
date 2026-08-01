@@ -23,5 +23,6 @@ expect val Const.MPV_CONFIG_DIR: String
 expect val Const.VIDEO_DIR: String
 expect val Const.DEFAULT_FILE_PICKER_PATH: String
 expect val Const.TEMP_PICTURES_DIR: String
+expect val Const.DOWNLOAD_TEMP_DIR: String
 expect val Const.MPV_FONT_DIR: String
 expect val Const.PICTURES_DIR: String
